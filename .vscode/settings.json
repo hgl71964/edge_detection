@@ -1,6 +1,7 @@
 {
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": false,
+
     "python.linting.pylintArgs": [
         "--generated-members=numpy.* ,torch.*"
         ],

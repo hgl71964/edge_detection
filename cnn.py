@@ -11,9 +11,10 @@ class CNN(nn.Module):
         super( CNN, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=3,
                                 out_channels = 16, 
-                                kernel_size = (),
+                                kernel_size = (5,3),
                                 stride = 1,
                                 padding= 1)
+        self.a = nn.LeakyReLU()
 
         self.conv2 = nn.Conv2d(in_channels=16,
                                 out_channels = 32,
@@ -35,16 +36,19 @@ class CNN(nn.Module):
                                 padding= 2)
 
     def forward(self,
-                x,  #shape (batch_size, 201, 401, 3);  height = 201, width = 401, 3 channels
+                x,  #shape (batch_size,3,  201, 401 );  height = 201, width = 401, 3 channels
                 ):
 
-        x = nn.LeakyReLU(self.conv1(x)) 
-        print(x.shape)
+        height, width = x.shape[-2], x.shape[-1]
+        print("input", x.shape)
+
+        x = self.a(self.conv1(x)) 
+        print("conv1", x.shape)
 
         x = self.pooling1(x)
-        print(x.shape)
+        print("pool1", x.shape)
 
-        x = nn.LeakyReLU(self.conv3(x))
+        x = self.a(self.conv3(x))
         print(x.shape)
 
         x = self.upsample(x)
@@ -53,7 +57,7 @@ class CNN(nn.Module):
         x = self.conv4(x)
         print(x.shape)
 
-        return(x.view(-1, 201, 401, 1))
+        return(x.view(-1, 1, 201, 401))
 
 
 
@@ -63,7 +67,7 @@ if __name__ == "__main__":
 
     # input shape (batch_size, 201, 401, 3)
 
-    fake_input = tr.rand(2, 201, 401, 3)
+    fake_input = tr.rand(2, 3, 201, 401)
 
 
     print(cnn(fake_input).shape)

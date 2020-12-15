@@ -41,7 +41,7 @@ class CNN(nn.Module):
                                 padding= (1, 1))
 
     def forward(self,
-                x,  #shape (batch_size,3,  201, 401 );  height = 201, width = 401, 3 channels
+                x,  #shape (batch_size, 3,  201, 401 );  3 channels, height = 201, width = 401, 
                 verbose = False,
                 ):
 

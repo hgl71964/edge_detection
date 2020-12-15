@@ -29,16 +29,16 @@ class CNN(nn.Module):
                                 out_channels = 16,
                                 kernel_size = 3,
                                 stride = 1,
-                                padding= 1)
+                                padding= (1,1))
 
-        self.upsample = nn.Upsample(scale_factor=(1,2),
+        self.upsample = nn.Upsample(scale_factor=(2,4),
                                     )
 
         self.conv4 = nn.Conv2d(in_channels=16,
                                 out_channels = 1,
-                                kernel_size = 5,
+                                kernel_size = 2,
                                 stride = 1,
-                                padding= 2)
+                                padding= (1, 1))
 
     def forward(self,
                 x,  #shape (batch_size,3,  201, 401 );  height = 201, width = 401, 3 channels
@@ -61,6 +61,7 @@ class CNN(nn.Module):
 
         x = self.upsample(x)
         print("upsample", x.shape)
+
 
         x = self.conv4(x)
         print("conv4", x.shape)

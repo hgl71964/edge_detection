@@ -74,7 +74,7 @@ class CNN(nn.Module):
         if verbose:
             print("conv4", x.shape)
 
-        return(x.view(-1, 1, 201, 401))
+        return(x.view(-1, 1, height, width))
 
 
 

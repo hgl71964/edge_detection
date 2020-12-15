@@ -1,4 +1,9 @@
 {
     "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": false,
+    "python.linting.pylintArgs": [
+        "--generated-members=numpy.* ,torch.*"
+        ],
+        "python.linting.flake8Enabled": false,
+
 }

@@ -42,29 +42,37 @@ class CNN(nn.Module):
 
     def forward(self,
                 x,  #shape (batch_size,3,  201, 401 );  height = 201, width = 401, 3 channels
+                verbose = False,
                 ):
 
         height, width = x.shape[-2], x.shape[-1]
-        print("input", x.shape)
+        if verbose:
+            print("input", x.shape)
 
         x = self.a(self.conv1(x)) 
-        print("conv1", x.shape)
+        if verbose:
+            print("conv1", x.shape)
 
         x = self.a(self.conv2(x))
-        print("conv2", x.shape)
+        if verbose:
+            print("conv2", x.shape)
 
         x = self.pooling1(x)
-        print("pool1", x.shape)
+        if verbose:
+            print("pool1", x.shape)
 
         x = self.a(self.conv3(x))
-        print("conv3", x.shape)
+        if verbose:
+            print("conv3", x.shape)
 
         x = self.upsample(x)
-        print("upsample", x.shape)
+        if verbose:
+            print("upsample", x.shape)
 
 
         x = self.conv4(x)
-        print("conv4", x.shape)
+        if verbose:
+            print("conv4", x.shape)
 
         return(x.view(-1, 1, 201, 401))
 

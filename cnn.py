@@ -4,6 +4,8 @@ cnn archi
 
 import torch as tr
 import torch.nn as nn
+import torch.nn.functional as F
+
 
 
 class CNN(nn.Module):
@@ -11,8 +13,8 @@ class CNN(nn.Module):
         super( CNN, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=3,
                                 out_channels = 16, 
-                                kernel_size = (5,3),
-                                stride = 1,
+                                kernel_size = 3,
+                                stride = (1, 2),
                                 padding= 1)
         self.a = nn.LeakyReLU()
 
@@ -45,17 +47,20 @@ class CNN(nn.Module):
         x = self.a(self.conv1(x)) 
         print("conv1", x.shape)
 
+        x = self.a(self.conv2(x))
+        print("conv2", x.shape)
+
         x = self.pooling1(x)
         print("pool1", x.shape)
 
         x = self.a(self.conv3(x))
-        print(x.shape)
+        print("conv3", x.shape)
 
         x = self.upsample(x)
-        print(x.shape)
+        print("upsample", x.shape)
 
         x = self.conv4(x)
-        print(x.shape)
+        print("conv4", x.shape)
 
         return(x.view(-1, 1, 201, 401))
 

@@ -7,7 +7,7 @@ class CNN(nn.Module):
 		super(CNN,self).__init__()
 		self.conv1 = nn.Conv2d(in_channels=3,
 								out_channels = 16, 
-								kernel_size = 3,
+								kernel_size = (),
 								stride = 1,
 								padding= 1)
 
@@ -32,15 +32,26 @@ class CNN(nn.Module):
 								kernel_size = 5,
 								stride = 1,
 								padding= 2)
-	def forward(self,x):
-		x = x.view(1,3,256,256)
-		x = F.relu(self.conv1(x)) 
-		x = F.relu(self.conv2(x))
+	def forward(self,
+				x,  #  shape (batch_size, 201, 401, 3);  height = 201, width = 401, 3 channels
+				):
+
+		x = nn.LeakyReLU(self.conv1(x)) 
+		print(x.shape)
+
 		x = self.pooling1(x)
-		x = F.relu(self.conv3(x))
+		print(x.shape)
+
+		x = nn.LeakyReLU(self.conv3(x))
+		print(x.shape)
+
 		x = self.upsample(x)
+		print(x.shape)
+
 		x = self.conv4(x)
-		return(x.view(2,256,256))
+		print(x.shape)
+
+		return(x.view(-1, 201, 401, 1))
 
 
 

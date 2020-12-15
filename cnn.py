@@ -30,9 +30,12 @@ class CNN(nn.Module):
                                 kernel_size = 3,
                                 stride = 1,
                                 padding= 1)
-        self.upsample = nn.Upsample(scale_factor=2)
+
+        self.upsample = nn.Upsample(scale_factor=(1,2),
+                                    )
+
         self.conv4 = nn.Conv2d(in_channels=16,
-                                out_channels = 2,
+                                out_channels = 1,
                                 kernel_size = 5,
                                 stride = 1,
                                 padding= 2)

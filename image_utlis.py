@@ -1,4 +1,9 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2 as cv
+
 def query(X, Y = None, i=208, j = 104):
+
     
     img1 = X[i,:,:].T;  
     img1=(img1-np.min(img1))/(np.max(img1)-np.min(img1))

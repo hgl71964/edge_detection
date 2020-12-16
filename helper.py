@@ -14,15 +14,53 @@ class helper:
 
 
 
-class dnn_utils:
+class DNN:
+    def __init__(self, 
+                model,
+                **kwargs,
+                )
 
-    @staticmethod
-    def train(model, data):
-        return 
+        self.model = model
+        self.epoch = kwargs["epoch"]
+
+    def train(self, 
+                X_train,  #  X_train: [N_samples,input_dim];  -> Tensor
+                y_train,  #  y_train: [N_samples,];  -> Tensor
+                ): 
+    '''
+    Args:
+    
+    Returns:
+            local_batch:  [batch_size, input_dim] -> Tensor
+            local_labels: [batch_size,];  -> Tensor
+    '''
+    self.model.train()
+    epoch_loss = 0
+
+    for local_batch, local_labels in self.batcher(X_train, y_train, self.batch_size):
+
+        local_batch, local_labels = local_batch.to(self.device), \
+                                    local_labels.flatten().to(self.device)
+
+        # print('input are:')
+        # print(local_batch.size())
+        # print(local_labels.size())
+
+        self.optimiser.zero_grad()
+        local_output = self.model(local_batch)
+
+        # print('output are:')
+        # print(local_output.size())
+        # print(local_labels.size())
+
+        loss = self.lossfunction(local_output, local_labels)
+        loss.backward()
+        self.optimiser.step()
+        epoch_loss += loss.item()
+    return epoch_loss
 
     
-    @staticmethod
-    def test(model, data):
+    def test(self, data):
         return 
 
 

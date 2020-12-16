@@ -46,8 +46,8 @@ class NN:
         
 
     def train(self, 
-                X_train,  #  X_train: [N_samples,input_dim];  -> Tensor
-                y_train,  #  y_train: [N_samples,];  -> Tensor
+            X_train,  #  X_train: [N_samples,input_dim];  -> Tensor
+            y_train,  #  y_train: [N_samples,];  -> Tensor
                 ): 
         '''
         Returns:

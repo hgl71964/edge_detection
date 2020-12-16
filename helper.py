@@ -1,5 +1,7 @@
 import torch as tr
 import torch.nn as nn
+import torch.optim as optim
+
 
 
 """
@@ -7,30 +9,30 @@ helper class for training
 """
 
 class helper:
-
-    @staticmethod
-    def batcher(image):
-        pass
+    pass
+    
 
 
-
-class DNN:
+class NN:
     def __init__(self, 
                 model,
-                optimiser, 
-                loss_func, 
                 **kwargs,
                 ):
 
         #  key compoenents
         self.model = model
-        self.opt = optimiser
-        self.loss = loss_func
 
         #  hyper-parameters
         self.epoch = kwargs["epoch"]
         self.device = kwargs["device"]
         self.batch_size = kwargs["batch_size"]
+        self.lr = kwargs["lr"]
+
+        # init opt and loss 
+        self.opt = optim.Adam(self.model.parameters(), lr=self.lr)
+        self.loss = nn.CrossEntropyLoss().to(self.device)
+ 
+
 
     def train(self, 
                 X_train,  #  X_train: [N_samples,input_dim];  -> Tensor
@@ -66,10 +68,10 @@ class DNN:
             epoch_loss += loss.item()
         return epoch_loss
 
-    def predict(self, 
-                X_train,  #  X_train: [N_samples,input_dim];  -> Tensor
-                y_train,  #  y_train: [N_samples,];  -> Tensor
-                ): 
+    def test(self, 
+            X_train,  #  X_train: [N_samples,input_dim];  -> Tensor
+            y_train,  #  y_train: [N_samples,];  -> Tensor
+            ): 
         '''
         Returns:
             local_batch:  [batch_size, input_dim] -> Tensor
@@ -92,6 +94,15 @@ class DNN:
             loss = self.loss(local_output, local_labels)
             epoch_loss += loss.item()
         return epoch_loss
+
+
+    def prediction(self,
+                    x,
+                    ):
+
+        self.model.eval()
+
+        return self.model(x)
 
     def batcher(self, x, y, batch_size):
         l = len(y)

@@ -86,10 +86,10 @@ def plot_edge(*args):
         ax1, ax2, ax3, ax4 = ax.flatten()
 
         ax1.imshow(img1); ax1.set_title("original")
-        ax2.imshow(edg1); ax2.set_title("Canny")
+        ax2.imshow(edg1); ax2.set_title("in-line Canny")
         
         ax3.imshow(img2); ax3.set_title("original")
-        ax4.imshow(edg2); ax4.set_title("Canny")
+        ax4.imshow(edg2); ax4.set_title("cross-line Canny")
     else:
         fig, ax = plt.subplots(nrows=2, ncols=3, figsize=(12, 8))
         ax1, ax2, ax3, ax4, ax5, ax6 = ax.flatten()

@@ -66,6 +66,33 @@ class DNN:
             epoch_loss += loss.item()
         return epoch_loss
 
+    def predict(self, 
+                X_train,  #  X_train: [N_samples,input_dim];  -> Tensor
+                y_train,  #  y_train: [N_samples,];  -> Tensor
+                ): 
+        '''
+        Returns:
+            local_batch:  [batch_size, input_dim] -> Tensor
+            local_labels: [batch_size,];  -> Tensor
+        '''
+        self.model.eval()
+        epoch_loss = 0
+
+        for local_batch, local_labels in self.batcher(X_train, y_train, self.batch_size):
+
+            local_batch, local_labels = local_batch.to(self.device), \
+                                        local_labels.flatten().to(self.device)
+
+            # print('input are:');  print(local_batch.size());  print(local_labels.size())
+
+            local_output = self.model(local_batch)
+
+            #  print('output are:'); print(local_output.size()); print(local_labels.size())
+
+            loss = self.loss(local_output, local_labels)
+            epoch_loss += loss.item()
+        return epoch_loss
+
     def batcher(self, x, y, batch_size):
         l = len(y)
         for batch in range(0, l, batch_size):

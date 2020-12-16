@@ -14,14 +14,14 @@ def query(X, Y = None, i=208, j = 104):
     else: ref2 = Y[:,j,:].T; ref2=(ref2-np.min(ref2))/(np.max(ref2)-np.min(ref2))
     return (img1, img2, ref1, ref2)
 
-def query_test(X, Y = None, i=208, j = 104):
-    img1 = X[i,:,:].T; img1 = np.where(img1>0, 0, img1); img1=(img1-np.min(img1))/(np.max(img1)-np.min(img1))
-    if Y is None: ref1 = None
-    else: ref1 = Y[i,:,:].T; ref1=(ref1-np.min(ref1))/(np.max(ref1)-np.min(ref1))
+def query_test(x, y = None, i=208, j = 104):
+    img1 = x[i,:,:].t; img1 = np.where(img1>0, 0, img1); img1=(img1-np.min(img1))/(np.max(img1)-np.min(img1))
+    if y is none: ref1 = none
+    else: ref1 = y[i,:,:].t; ref1=(ref1-np.min(ref1))/(np.max(ref1)-np.min(ref1))
 
-    img2 = X[:,j,:].T; img2 = np.where(img2>0, 0, img2); img2=(img2-np.min(img2))/(np.max(img2)-np.min(img2))
-    if Y is None: ref2 = None
-    else: ref2 = Y[:,j,:].T; ref2=(ref2-np.min(ref2))/(np.max(ref2)-np.min(ref2))
+    img2 = x[:,j,:].t; img2 = np.where(img2>0, 0, img2); img2=(img2-np.min(img2))/(np.max(img2)-np.min(img2))
+    if y is none: ref2 = none
+    else: ref2 = y[:,j,:].t; ref2=(ref2-np.min(ref2))/(np.max(ref2)-np.min(ref2))
     return (img1, img2, ref1, ref2)
 
 def plot(i, j, *args):

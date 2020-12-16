@@ -57,8 +57,8 @@ def fill_shape(i, threshold=100, *args):
     for j in range(e1.shape[1]):
         h = np.where(e1[:, j]>threshold)[0]  
         h1, h2 = h[0], h[-1]
-        e1[h1:h2+1, j] = 255  # fill shape in between 
-    return e1 
+        e1[h1:h2+1, j] = 1  # fill shape in between 
+    return e1.astype(np.float32) 
 
 def get_height(i, j, threshold=100, *args):
     

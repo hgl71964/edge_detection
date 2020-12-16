@@ -32,7 +32,29 @@ class NN:
         self.opt = optim.Adam(self.model.parameters(), lr=self.lr)
         self.loss = nn.CrossEntropyLoss().to(self.device)
  
+    def run_epoch(self,
+                X_train,  # X_train: [N_samples,input_dim];  -> Tensor
+                y_train,  # y_train: [N_samples,];  -> Tensor
+                X_test,   #  X_test: [N_samples,input_dim];  -> Tensor
+                y_test,   #  y_test: [N_samples,];  -> Tensor
+                verbo=True, 
+                ):
+        best_valid_loss = float('inf')
 
+        for epoch in range(self.max_epochs):
+
+            train_loss = self.train(X_train, y_train)
+            valid_loss = self.test(X_test, y_test)
+
+            if valid_loss < best_valid_loss:
+                best_valid_loss = valid_loss
+                #  self.best_model = copy.deepcopy(self.model).cpu()
+                if verbo:
+                    print(f'Epoch: {epoch+1}:')
+                    print(f'Train Loss: {train_loss:.3f}')
+                    print(f'Validation Loss: {valid_loss:.3f}')
+        return best_valid_loss
+        
 
     def train(self, 
                 X_train,  #  X_train: [N_samples,input_dim];  -> Tensor
@@ -52,21 +74,18 @@ class NN:
                                         local_labels.flatten().to(self.device)
 
             # print('input are:'); print(local_batch.size()); print(local_labels.size())
-
             self.opt.zero_grad()
             local_output = self.model(local_batch)
-
             # print('output are:'); print(local_output.size()); print(local_labels.size())
 
             loss = self.loss(local_output, local_labels)
-            loss.backward()
-            self.opt.step()
+            loss.backward(); self.opt.step()
             epoch_loss += loss.item()
         return epoch_loss
 
     def test(self, 
-            X_train,  #  X_train: [N_samples,input_dim];  -> Tensor
-            y_train,  #  y_train: [N_samples,];  -> Tensor
+            X_test,  #  X_test: [N_samples,input_dim];  -> Tensor
+            y_test,  #  y_test: [N_samples,];  -> Tensor
             ): 
         '''
         Returns:
@@ -76,7 +95,7 @@ class NN:
         self.model.eval()
         epoch_loss = 0
 
-        for local_batch, local_labels in self.batcher(X_train, y_train, self.batch_size):
+        for local_batch, local_labels in self.batcher(X_test, y_test, self.batch_size):
 
             local_batch, local_labels = local_batch.to(self.device), \
                                         local_labels.flatten().to(self.device)

@@ -2,9 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2 as cv
 
-def query(X, Y = None, i=208, j = 104):
+def query_slice(X, Y = None, i=208):
+    img1 = X[i,:,:].T;  img1=(img1-np.min(img1))/(np.max(img1)-np.min(img1))
+    if Y is None: ref1 = None
+    else: ref1 = Y[i,:,:].T; ref1=(ref1-np.min(ref1))/(np.max(ref1)-np.min(ref1))
+    return (img1, ref1)
 
-    
+def query(X, Y = None, i=208, j = 104):
     img1 = X[i,:,:].T;  
     img1=(img1-np.min(img1))/(np.max(img1)-np.min(img1))
     
@@ -36,12 +40,26 @@ def query_test(x, y = None, i=208, j = 104):
  
     if y is None: ref2 = None
     else: ref2 = y[:,j,:].T; ref2=(ref2-np.min(ref2))/(np.max(ref2)-np.min(ref2))
-
     return (img1, img2, ref1, ref2)
+
 def cv_canny(t1=150, t2=20, *args):
     img1, img2, ref1, ref2 = args
     edg1, edg2 = cv.Canny( (img1*255).astype(np.uint8),t1,t2 ),cv.Canny((img2*255).astype(np.uint8),t1,t2)
     return (img1, ref1, img2, ref2, edg1, edg2)
+
+def cv_canny_slice(t1=150, t2=20, *args):
+    img1,  ref1,  = args
+    edg1  = cv.Canny( (img1*255).astype(np.uint8),t1,t2 ) 
+    return (img1, ref1, edg1)
+
+def fill_shape(i, threshold=100, *args):
+    _,_, e1 = args
+    for j in range(e1.shape[1]):
+        h = np.where(e1[:, j]>threshold)[0]  
+        h1, h2 = h[0], h[-1]
+        e1[h1:h2+1, j] = 255  # fill shape in between 
+    return e1 
+
 def get_height(i, j, threshold=100, *args):
     
     (_, _, _, _, edg1, edg2) = args

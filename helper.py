@@ -1,6 +1,7 @@
 import torch as tr
 import torch.nn as nn
 import torch.optim as optim
+import copy
 
 class NN:
     def __init__(self, 
@@ -30,7 +31,7 @@ class NN:
                 ):
         best_valid_loss = float('inf')
 
-        for epoch in range(self.max_epochs):
+        for epoch in range(self.epoch):
 
             train_loss = self.train(X_train, y_train)
             valid_loss = self.test(X_test, y_test)
@@ -48,7 +49,7 @@ class NN:
     def train(self, 
             X_train,  #  X_train: [N_samples,input_dim];  -> Tensor
             y_train,  #  y_train: [N_samples,];  -> Tensor
-                ): 
+            ): 
         '''
         Returns:
             local_batch:  [batch_size, input_dim] -> Tensor

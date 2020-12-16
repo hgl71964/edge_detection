@@ -2,17 +2,6 @@ import torch as tr
 import torch.nn as nn
 import torch.optim as optim
 
-
-
-"""
-helper class for training
-"""
-
-class helper:
-    pass
-    
-
-
 class NN:
     def __init__(self, 
                 model,

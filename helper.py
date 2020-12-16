@@ -2,6 +2,7 @@ import torch as tr
 import torch.nn as nn
 import torch.optim as optim
 import copy
+from sklearn.model_selection import train_test_split
 
 class NN:
     def __init__(self, 
@@ -109,3 +110,27 @@ class NN:
         l = len(y)
         for batch in range(0, l, batch_size):
             yield (x[batch:min(batch + batch_size, l)], y[batch:min(batch + batch_size, l)])
+
+
+
+class helper:
+
+    @staticmethod
+    def format_input(data,  #  [num_sample, 2] -> np.ndarray
+                    ):
+        
+        imgs, labels = [], []
+
+        for d in data:
+
+            #  TODO: flatten and convert to tensor
+            img = d[0]
+            label = d[1]
+
+            #  TODO: change this
+            imgs.append(img)
+            labels.append(label)
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=None)
+
+        return X_train, y_train, X_test, y_test

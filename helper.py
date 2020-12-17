@@ -73,8 +73,7 @@ class segmentizer:
             local_output = local_output.view(self.batch_size, -1)
             local_labels = local_labels.view(self.batch_size, -1)
 
-            print(local_output.max(), local_output.min())
-            print(local_labels.unique())
+            # print(local_output.max(), local_output.min()); print(local_labels.unique())
 
             loss = self.loss(local_output, local_labels)
             loss.backward(); self.opt.step()

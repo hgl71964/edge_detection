@@ -73,6 +73,8 @@ class segmentizer:
             local_output = local_output.view(self.batch_size, -1)
             local_labels = local_labels.view(self.batch_size, -1)
 
+            print(local_labels.unique())
+
             loss = self.loss(local_output, local_labels)
             loss.backward(); self.opt.step()
             epoch_loss += loss.item()

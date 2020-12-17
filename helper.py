@@ -126,19 +126,18 @@ class helper:
     @staticmethod
     def format_input(data,  #  [num_sample, 2] -> np.ndarray
                     ):
-        n = len(data)
 
-        imgs, labels = [None] * n, [None] * n
+        n = len(data); num_element = data[0][0][0] * data[0][0][1]
+
+        imgs, labels = tr.zeros((n, num_element)), tr.zeros((num_element)) 
 
         for i, d in enumerate(data):
 
-            img = tr.from_numpy(d[0].flatten()).float()
-            label = tr.from_numpy(d[1].flatten()).float()
+            img = tr.from_numpy(d[0].flatten()).float(); label = tr.from_numpy(d[1].flatten()).float()
 
-            imgs[i] = img
-            labels[i] = label
+            imgs[i] = img; labels[i] = label
+        
 
         X_train, X_test, y_train, y_test = train_test_split(imgs, labels, 
                                             test_size=0.33, random_state=None)
-
         return X_train, y_train, X_test, y_test

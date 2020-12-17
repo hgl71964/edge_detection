@@ -40,12 +40,12 @@ class segmentizer:
 
             if valid_loss < best_valid_loss:
                 best_valid_loss = valid_loss
-                #  self.best_model = copy.deepcopy(self.model).cpu()
+                best_model = copy.deepcopy(self.model).cpu()
                 if verbo:
                     print(f'Epoch: {epoch+1}:')
                     print(f'Train Loss: {train_loss:.3f}')
                     print(f'Validation Loss: {valid_loss:.3f}')
-        return best_valid_loss
+        return best_valid_loss, best_model
         
 
     def train(self, 

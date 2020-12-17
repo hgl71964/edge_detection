@@ -127,16 +127,14 @@ class helper:
     def format_input(data,  #  [num_sample, 2] -> np.ndarray
                     ):
 
-        n = len(data); num_element = data[0][0][0] * data[0][0][1]
+        n, num_element = len(data), data[0][0].size
 
         imgs, labels = tr.zeros((n, num_element)), tr.zeros((num_element)) 
 
         for i, d in enumerate(data):
 
             img = tr.from_numpy(d[0].flatten()).float(); label = tr.from_numpy(d[1].flatten()).float()
-
             imgs[i] = img; labels[i] = label
-        
 
         X_train, X_test, y_train, y_test = train_test_split(imgs, labels, 
                                             test_size=0.33, random_state=None)

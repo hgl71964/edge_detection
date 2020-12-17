@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import copy
 from sklearn.model_selection import train_test_split
+import numpy as np
 
 class NN:
     def __init__(self, 
@@ -115,22 +116,27 @@ class NN:
 
 class helper:
 
+
+    @staticmethod
+    def load_np(path):
+        return np.load(path)
+
     @staticmethod
     def format_input(data,  #  [num_sample, 2] -> np.ndarray
                     ):
-        
-        imgs, labels = [], []
+        n = len(data)
 
-        for d in data:
+        imgs, labels = [None] * n, [None] * n
 
-            #  TODO: flatten and convert to tensor
-            img = d[0]
-            label = d[1]
+        for i, d in enumerate(data):
 
-            #  TODO: change this
-            imgs.append(img)
-            labels.append(label)
+            img = tr.from_numpy(d[0].flatten()).float()
+            label = tr.from_numpy(d[1].flatten()).float()
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=None)
+            imgs[i] = img
+            labels[i] = label
+
+        X_train, X_test, y_train, y_test = train_test_split(imgs, labels, 
+                                            test_size=0.33, random_state=None)
 
         return X_train, y_train, X_test, y_test

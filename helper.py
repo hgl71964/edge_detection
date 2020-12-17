@@ -22,7 +22,7 @@ class NN:
 
         # init opt and loss 
         self.opt = optim.Adam(self.model.parameters(), lr=self.lr)
-        self.loss = nn.CrossEntropyLoss().to(self.device)
+        self.loss = nn.BCELoss().to(self.device)
  
     def run_epoch(self,
                 X_train,  # X_train: [N_samples,input_dim];  -> Tensor
@@ -67,8 +67,11 @@ class NN:
 
             # print('input are:'); print(local_batch.size()); print(local_labels.size())
             self.opt.zero_grad()
-            local_output = self.model(local_batch)
+            local_output = self.model(local_batch) #  [batch_size, 1, height, width]
             # print('output are:'); print(local_output.size()); print(local_labels.size())
+
+            local_output = local_output.view(self.batch_size, -1)
+            local_labels = local_labels.view(self.batch_size, -1)
 
             loss = self.loss(local_output, local_labels)
             loss.backward(); self.opt.step()
@@ -115,7 +118,6 @@ class NN:
 
 
 class helper:
-
 
     @staticmethod
     def load_np(path):

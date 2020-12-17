@@ -22,7 +22,7 @@ class segmentizer:
 
         # init opt and loss 
         self.opt = optim.Adam(self.model.parameters(), lr=self.lr)
-        self.loss = nn.BCEWithLogitsLoss().to(self.device) #  combine a sigmoid with BCELoss
+        self.loss = nn.BCELoss().to(self.device)
  
     def run_epoch(self,
                 X_train,  # X_train: [N_samples,input_dim];  -> Tensor
@@ -61,6 +61,8 @@ class segmentizer:
         epoch_loss = 0
 
         for local_batch, local_labels in self.batcher(X_train, y_train, self.batch_size):
+            
+            
 
             local_batch, local_labels = local_batch.to(self.device), \
                                         local_labels.to(self.device)
@@ -70,10 +72,10 @@ class segmentizer:
             local_output = self.model(local_batch) #  [batch_size, 1, height, width]
             # print('output are:'); print(local_output.size()); print(local_labels.size())
 
-            local_output = local_output.view(self.batch_size, -1)
-            local_labels = local_labels.view(self.batch_size, -1)
+            local_size = local_batch.shape[0]
 
-            # print(local_output.max(), local_output.min()); print(local_labels.unique())
+            local_output = local_output.view(local_size, -1)
+            local_labels = local_labels.view(local_size, -1)
 
             loss = self.loss(local_output, local_labels)
             loss.backward(); self.opt.step()
@@ -100,6 +102,10 @@ class segmentizer:
             # print('input are:');  print(local_batch.size());  print(local_labels.size())
 
             local_output = self.model(local_batch)
+
+            local_size = local_batch.shape[0]
+            local_output = local_output.view(local_size, -1)
+            local_labels = local_labels.view(local_size, -1)
 
             #  print('output are:'); print(local_output.size()); print(local_labels.size())
 

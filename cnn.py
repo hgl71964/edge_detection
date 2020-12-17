@@ -7,7 +7,7 @@ import torch.nn.functional as F
 class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
-        self.conv1 = nn.Conv2d(in_channels=3,
+        self.conv1 = nn.Conv2d(in_channels=1,
                                 out_channels = 16, 
                                 kernel_size = 3,
                                 stride = (1, 2),
@@ -37,7 +37,7 @@ class CNN(nn.Module):
                                 padding= (1, 1))
 
     def forward(self,
-                x,  #shape (batch_size, 3,  201, 401 );  3 channels, height = 201, width = 401, 
+                x,  #shape (batch_size, 1,  201, 401 );  1 channels, height = 201, width = 401, 
                 verbose = False,
                 ):
 

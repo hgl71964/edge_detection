@@ -63,7 +63,7 @@ class NN:
         for local_batch, local_labels in self.batcher(X_train, y_train, self.batch_size):
 
             local_batch, local_labels = local_batch.to(self.device), \
-                                        local_labels.flatten().to(self.device)
+                                        local_labels.to(self.device)
 
             # print('input are:'); print(local_batch.size()); print(local_labels.size())
             self.opt.zero_grad()
@@ -127,16 +127,16 @@ class helper:
     def format_input(data,  #  [num_sample, 2] -> np.ndarray
                     ):
 
-        n, num_element = len(data), data[0][0].size
+        n = len(data)
+        height, width = data[0][0].size
 
-        imgs, labels = tr.zeros((n, num_element)), tr.zeros((n, num_element)) 
+        imgs, labels = tr.zeros((n, 1, height, width)), tr.zeros((n, 1, height, width)) 
 
         for i, d in enumerate(data):
 
-            img, label = tr.from_numpy(d[0].flatten()).float(), \
-                                tr.from_numpy(d[1].flatten()).float()
+            img, label = tr.from_numpy(d[0]).float(), tr.from_numpy(d[1]).float()
 
-            imgs[i], labels[i] = img, label
+            imgs[i][0], labels[i][0] = img, label
 
         X_train, X_test, y_train, y_test = train_test_split(imgs, labels, 
                                             test_size=0.33, random_state=None)

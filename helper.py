@@ -22,7 +22,7 @@ class segmentizer:
 
         # init opt and loss 
         self.opt = optim.Adam(self.model.parameters(), lr=self.lr)
-        self.loss = nn.BCELoss().to(self.device)
+        self.loss = nn.BCEWITHLOGITSLOSS().to(self.device)
  
     def run_epoch(self,
                 X_train,  # X_train: [N_samples,input_dim];  -> Tensor

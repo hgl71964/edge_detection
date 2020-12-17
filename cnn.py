@@ -74,13 +74,13 @@ class CNN(nn.Module):
 
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    cnn = CNN()
+#     cnn = CNN()
 
-    # input shape (batch_size, 201, 401, 3)
+#     # input shape (batch_size, 201, 401, 3)
 
-    fake_input = tr.rand(2, 3, 201, 401)
+#     fake_input = tr.rand(2, 1, 201, 401)
 
 
-    print(cnn(fake_input).shape)
+#     print(cnn(fake_input).shape)

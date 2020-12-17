@@ -73,7 +73,6 @@ class segmentizer:
             # print('output are:'); print(local_output.size()); print(local_labels.size())
 
             local_size = local_batch.shape[0]
-
             local_output = local_output.view(local_size, -1)
             local_labels = local_labels.view(local_size, -1)
 

@@ -133,9 +133,9 @@ class helper:
 
         for i, d in enumerate(data):
 
-            img, label = tr.from_numpy(d[0].flatten()).float(), 
+            img, label = tr.from_numpy(d[0].flatten()).float(), \
                                 tr.from_numpy(d[1].flatten()).float()
-                                
+
             print(img.shape, num_element)
             imgs[i], labels[i] = img, label
 

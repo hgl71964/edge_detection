@@ -2,18 +2,25 @@ import torch.nn.functional as F
 import numpy as np
 import torch as tr
 from sklearn.model_selection import train_test_split
+import torch.nn as nn
 
 
-a = [
-    [1,2,3,],
-    [4,5,6,],
-]
+l1 = nn.BCELoss()
+l2 = nn.NLLLoss()
 
-b = [
-    [1,2,3,],
-    [4,5,6,],
-]
+a = tr.tensor([
+    [0.1],
+    [0.9],
+]).float().flatten()
 
-a,b,c,d=train_test_split(a, b, test_size=0.5)
+b = tr.tensor([
+    [0],
+    [1],
+]).float().flatten()
 
-print(a)
+print(l1(a, b))
+
+# print(l2(a,b))
+
+
+print((tr.log(tr.tensor(0.9))+tr.log(tr.tensor(0.9)))/2)

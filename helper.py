@@ -137,7 +137,7 @@ class helper:
                                 tr.from_numpy(d[1].flatten()).float()
 
             print(img.shape, imgs.shape, imgs[0].shape)
-            imgs[i], labels[i] = img, label
+            imgs[i,:], labels[i,:] = img, label
 
         X_train, X_test, y_train, y_test = train_test_split(imgs, labels, 
                                             test_size=0.33, random_state=None)

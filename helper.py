@@ -128,7 +128,7 @@ class helper:
                     ):
 
         n = len(data)
-        height, width = data[0][0].size
+        height, width = data[0][0].shape
 
         imgs, labels = tr.zeros((n, 1, height, width)), tr.zeros((n, 1, height, width)) 
 

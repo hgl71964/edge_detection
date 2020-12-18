@@ -5,6 +5,9 @@ import copy
 from sklearn.model_selection import train_test_split
 import numpy as np
 
+
+# TODO: put model & optimiser into cuda...
+
 class segmentizer:
     def __init__(self, 
                 model,
